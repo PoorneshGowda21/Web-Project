@@ -1,2 +1,137 @@
-# Web-Project
-completing the task assigned by the skillcraft technology
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do Web App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #1e1e2f;
+        color: white;
+        display: flex;
+        justify-content: center;
+        padding: 2rem;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 500px;
+        background: #2d2d44;
+        padding: 2rem;
+        border-radius: 10px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      input,
+      button {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+      }
+
+      button {
+        background: #4caf50;
+        color: white;
+        cursor: pointer;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+      }
+
+      li {
+        background: #3e3e5a;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .task-controls {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 5px;
+      }
+
+      button.edit,
+      button.complete,
+      button.delete {
+        margin: 5px 2px;
+        padding: 5px;
+        font-size: 0.8rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>To-Do List</h1>
+      <form id="task-form">
+        <input type="text" id="task-input" placeholder="Enter task" required />
+        <input type="datetime-local" id="task-time" required />
+        <button type="submit">Add Task</button>
+      </form>
+      <ul id="task-list"></ul>
+    </div>
+
+    <script>
+      document.getElementById('task-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const taskInput = document.getElementById('task-input');
+        const taskTime = document.getElementById('task-time');
+        const taskList = document.getElementById('task-list');
+
+        const li = document.createElement('li');
+        const taskText = document.createElement('span');
+        taskText.textContent = `${taskInput.value} — ${taskTime.value}`;
+        li.appendChild(taskText);
+
+        const controls = document.createElement('div');
+        controls.className = 'task-controls';
+
+        const completeBtn = document.createElement('button');
+        completeBtn.textContent = 'Complete';
+        completeBtn.className = 'complete';
+        completeBtn.onclick = () => {
+          taskText.style.textDecoration = 'line-through';
+        };
+
+        const editBtn = document.createElement('button');
+        editBtn.textContent = 'Edit';
+        editBtn.className = 'edit';
+        editBtn.onclick = () => {
+          const newTask = prompt('Edit task:', taskInput.value);
+          if (newTask) {
+            taskText.textContent = `${newTask} — ${taskTime.value}`;
+          }
+        };
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.className = 'delete';
+        deleteBtn.onclick = () => li.remove();
+
+        controls.append(completeBtn, editBtn, deleteBtn);
+        li.appendChild(controls);
+        taskList.appendChild(li);
+
+        taskInput.value = '';
+        taskTime.value = '';
+      });
+    </script>
+  </body>
+</html>
+`
